@@ -186,16 +186,23 @@ var app = new Ext.application({
             console.log(data.data);
 
             let data_cols = [];
+            let piter = 0;
             col_config.forEach(elem => {
                 let col = {};
                 let data_elem = data.meta.view.columns[elem.index]
+                if(data_elem.dataTypeName == "number") {
+                    col['xtype'] = 'numbercolumn';
+                    col['format'] = '0,000';
+                    col['align'] = 'right';
+                }
                 col['dataIndex'] = data_elem.fieldName;
                 col['text'] = data_elem.name;
-                col['width'] = data_elem.width;
+                col['width'] = data_elem.width + 30;
+                
                 data_cols.push(col);
             });
             
-            console.log(data_cols);
+            //console.log(data_cols);
 
             let table_fields = [];
             let store_data = [];
@@ -203,6 +210,7 @@ var app = new Ext.application({
             data_cols.forEach(elem => {
                 table_fields.push(elem.dataIndex);
             });
+            //console.log(table_fields);
 
             //table_fields.push(':sid');
 
@@ -225,7 +233,7 @@ var app = new Ext.application({
                 let datos = appData.data[rowIndex];
 
                 let data = [];
-                console.log(datos);
+                //console.log(datos);
                 radar_chart.setTitle(`${datos[8]}, ${datos[9]}`);
                 radar_chart.setConfig('captions', {
                         title: 'Radar Charts - ' + `${datos[8]}, ${datos[9]}`,
@@ -241,7 +249,7 @@ var app = new Ext.application({
                         name: col_name,
                         value: datos[elem.index]
                     }
-                    console.log(col_name);
+                    //console.log(col_name);
                     data.push(elemento);
                 });
 
@@ -264,7 +272,7 @@ var app = new Ext.application({
             
             table_panel.setConfig('columns', data_cols);
             //table_panel.columns = data_cols;
-            console.log(table_panel);
+            //console.log(table_panel);
             table_panel.setStore(data_store);
         });
     }
